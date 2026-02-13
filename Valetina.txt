@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thiệp Valentine Hoàn Chỉnh Từ Nhe</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(45deg, #ff69b4, #ffb6c1, #ffc0cb);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+        /* Trang mở thiệp */
+        .open-container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            animation: fadeIn 2s ease-in-out;
+            display: block; /* Hiển thị ban đầu */
+        }
+        .card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            padding: 30px;
+            max-width: 500px;
+            text-align: center;
+            position: relative;
+            animation: cardFadeIn 2s ease-in-out;
+            z-index: 10;
+            display: none; /* Ẩn ban đầu */
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        @keyframes cardFadeIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .title {
+            font-size: 28px;
+            color: #ff1493;
+            margin-bottom: 30px;
+        }
+        .button {
+            background: linear-gradient(45deg, #ff69b4, #ff1493, #dc143c);
+            color: white;
+            border: none;
+            padding: 20px 40px;
+            font-size: 22px;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(255, 20, 147, 0.4), 0 0 0 0 rgba(255, 20, 147, 0.7);
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+            position: relative;
+            overflow: hidden;
+        }
+        .button::before {
+            content: '❤️ ';
+            font-size: 24px;
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 30px rgba(255, 20, 147, 0.6), 0 0 0 10px rgba(255, 20, 147, 0.2);
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 8px 20px rgba(255, 20, 147, 0.4), 0 0 0 0 rgba(255, 20, 147, 0.7); }
+            50% { box-shadow: 0 8px 20px rgba(255, 20, 147, 0.4), 0 0 0 5px rgba(255, 20, 147, 0.3); }
+            100% { box-shadow: 0 8px 20px rgba(255, 20, 147, 0.4), 0 0 0 0 rgba(255, 20, 147, 0.7); }
+        }
+        .frame {
+            border: 5px solid #ff1493;
+            border-radius: 15px;
+            padding: 10px;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+        .frame img {
+            width: 100px;
+            height: 100px;
+            border-radius: 10px;
+            object-fit: cover;
+        }
+        .message {
+            font-size: 18px;
+            color: #333;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        .hearts {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        .heart {
+            position: absolute;
+            color: #ff69b4;
+            font-size: 24px;
+            animation: float 6s linear infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+        }
+        .flowers {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            font-size: 30px;
+            color: #ff4500;
+            animation: bloom 3s ease-in-out infinite alternate;
+        }
+        @keyframes bloom {
+            0% { transform: scale(0.5); opacity: 0.5; }
+            100% { transform: scale(1.2); opacity: 1; }
+        }
+        .bubbles {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        .bubble {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            animation: bubbleRise 8s linear infinite;
+        }
+        @keyframes bubbleRise {
+            0% { transform: translateY(100vh) scale(0); opacity: 1; }
+            100% { transform: translateY(-100px) scale(1); opacity: 0; }
+        }
+        .dynamic-frames {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 1;
+        }
+        .dynamic-frame {
+            position: absolute;
+            border: 3px solid #ff69b4;
+            border-radius: 10px;
+            padding: 5px;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            animation: frameAppear 1s ease-in-out, frameDisappear 1s ease-in-out 3s forwards;
+        }
+        .dynamic-frame img {
+            width: 60px;
+            height: 60px;
+            border-radius: 5px;
+            object-fit: cover;
+        }
+        @keyframes frameAppear {
+            from { opacity: 0; transform: scale(0.5) rotate(-10deg); }
+            to { opacity: 1; transform: scale(1) rotate(0deg); }
+        }
+        @keyframes frameDisappear {
+            from { opacity: 1; transform: scale(1); }
+            to { opacity: 0; transform: scale(0.5); }
+        }
+        .hearts-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        .heart-bg {
+            position: absolute;
+            color: #ff69b4;
+            font-size: 24px;
+            animation: floatBg 8s linear infinite;
+        }
+        @keyframes floatBg {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0.5; }
+            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Âm thanh ẩn (phát khi mở thiệp) -->
+    <audio id="openSound" preload="auto">
+        <source src="C:\Users\nguyen tuan anh\Downloads\In-Love.mp3" type="audio/wav">
+        Trình duyệt của bạn không hỗ trợ âm thanh.
+    </audio>
+
+    <!-- Trang mở thiệp -->
+    <div class="open-container" id="open-container">
+        <div class="title">Chúc mừng ngày Valentine! 🎉</div>
+        <button class="button" onclick="openCard()">Mở Thiệp Từ Nhe</button>
+        <div class="hearts-bg" id="hearts-bg"></div>
+    </div>
+
+    <!-- Trang thiệp chính -->
+    <div class="card" id="card">
+        <div class="frame">
+            <img src="https://drive.google.com/file/d/1-AFiTQpzaluhgeq1Hk9MF-Hnet3jqUiv/view?usp=sharing" alt="Ảnh nhỏ của Nhi" />
+        </div>
+        <div class="message">
+            Gửi đến Nhi yêu của anh, chúc em có một ngày Valentine tràn ngập niềm vui và hạnh phích =))). Cảm ơn em vì đã đến bên Nhe! Em chính là món quà quý giá nhất mà anh có đc. Hãy luôn cười thật tươi và hạnh phúc bên anh, em nhé! Yêu Nhi nhất trên đời nhun!
+        </div>
+        <div class="hearts" id="hearts"></div>
+        <div class="flowers">🌸🌺🌻</div>
+        <div class="bubbles" id="bubbles"></div>
+    </div>
+    <div class="dynamic-frames" id="dynamic-frames"></div>
+
+    <script>
+        // Script cho trang mở thiệp (trái tim nền)
+        function createHeartBg() {
+            const heart = document.createElement('div');
+            heart.className = 'heart-bg';
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDelay = Math.random() * 5 + 's';
+            document.getElementById('hearts-bg').appendChild(heart);
+            setTimeout(() => heart.remove(), 8000);
+        }
+        setInterval(createHeartBg, 1000);
+
+        // Hàm mở thiệp: Phát âm thanh, ẩn trang mở và hiển thị thiệp chính
+        function openCard() {
+            const audio = document.getElementById('openSound');
+            audio.play().catch(e => console.log('Âm thanh bị chặn:', e)); // Phát âm thanh (có thể bị chặn nếu không tương tác trước)
+            document.getElementById('open-container').style.display = 'none';
+            document.getElementById('card').style.display = 'block';
+            // Khởi động hoạt ảnh cho thiệp chính
+            startCardAnimations();
+        }
+
+        // Script cho thiệp chính (chỉ chạy sau khi mở)
+        function startCardAnimations() {
+            // Tạo trái tim bay ngẫu nhiên
+            function createHeart() {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.innerHTML = '❤️';
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDelay = Math.random() * 5 + 's';
+                document.getElementById('hearts').appendChild(heart);
+                setTimeout(() => heart.remove(), 6000);
+            }
+            setInterval(createHeart, 1000);
+
+            // Tạo bong bóng nổi lên ngẫu nhiên
+            function createBubble() {
+                const bubble = document.createElement('div');
+                bubble.className = 'bubble';
+                bubble.style.width = Math.random() * 20 + 10 + 'px';
+                bubble.style.height = bubble.style.width;
+                bubble.style.left = Math.random() * 100 + '%';
+                bubble.style.animationDelay = Math.random() * 5 + 's';
+                document.getElementById('bubbles').appendChild(bubble);
+                setTimeout(() => bubble.remove(), 8000);
+            }
+            setInterval(createBubble, 1500);
+
+            // Tạo khung ảnh động xuất hiện bên ngoài thiệp (ở biên trái, phải, trên, dưới) - Tăng tốc độ và nhiều ảnh hơn
+            const frameImages = [
+                "https://drive.google.com/file/d/1-k8915jz-EFs-6n3Lljc3bzTnCRftePb/view?usp=sharing",
+                "https://drive.google.com/file/d/1bQEcYyUD5m0NE9Nm-W5mapURqRsZBKUV/view?usp=sharing",
+                "https://drive.google.com/file/d/1SLyrfS21UEnvdaCHl_iPrkA0efeS7_MX/view?usp=sharing",
+                "https://drive.google.com/file/d/1ux-nrq_nsij9-61TGyzxC7ncRfe6R0XN/view?usp=sharing",
+                "https://drive.google.com/file/d/1dl5PDF8dTKz8h3Kij03XVVOihPMIMuiu/view?usp=sharing",
+                "https://drive.google.com/file/d/1JRItIl29BPH4nC8dP5nBaPTpG950uBNv/view?usp=sharing",
+                "https://drive.google.com/file/d/1OJyTnpjxyCv-eQDP4ZPVEoCG_z5aE06O/view?usp=sharing",
+                "https://drive.google.com/file/d/1KdsXh1QNCJWGj-L4Rc5PuC3NVhmWwclQ/view?usp=sharing", 
+                "https://drive.google.com/file/d/1QvCuPoapkU7rdUwiDJzxRyfHXgTr5xpU/view?usp=sharing",
+                "https://drive.google.com/file/d/1K8BUtZnqCRpRThPkS5FnbNk0lhQR9f9e/view?usp=sharing"
+            ]; // Mảng 10 ảnh placeholder đa dạng - Thay bằng ảnh thật của bạn (ví dụ: "path/to/photo.jpg")
+
+            function createDynamicFrame() {
+                const frame = document.createElement('div');
+                frame.className = 'dynamic-frame';
+                const img = document.createElement('img');
+                img.src = frameImages[Math.floor(Math.random() * frameImages.length)];
+                img.alt = "Ảnh động";
+                frame.appendChild(img);
+
+                // Giới hạn vị trí ở biên: trái (0-10%), phải (90-100%), trên/dưới (0-10% hoặc 90-100%)
+                const side = Math.floor(Math.random() * 4); // 0: trái, 1: phải, 2: trên, 3: dưới
+                if (side === 0) { // Trái
+                    frame.style.left = Math.random() * 10 + '%';
+                    frame.style.top = Math.random() * 100 + '%';
+                } else if (side === 1) { // Phải
+                    frame.style.left = 90 + Math.random() * 10 + '%';
+                    frame.style.top = Math.random() * 100 + '%';
+                } else if (side === 2) { // Trên
+                    frame.style.top = Math.random() * 10 + '%';
+                    frame.style.left = Math.random() * 100 + '%';
+                } else { // Dưới
+                    frame.style.top = 90 + Math.random() * 10 + '%';
+                    frame.style.left = Math.random() * 100 + '%';
+                }
+
+                document.getElementById('dynamic-frames').appendChild(frame);
+                setTimeout(() => frame.remove(), 4000); // Xóa sau 4 giây
+            }
+            setInterval(createDynamicFrame, 1500); // Tăng tốc độ: Tạo khung mới mỗi 1.5 giây
+        }
+    </script>
+</body>
+</html>
